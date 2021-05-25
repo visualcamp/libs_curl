@@ -7,17 +7,22 @@ message(">>>                   Configuring Curl                   <<<")
 add_library(curl INTERFACE)
 
 set(CURL_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+
 if (ANDROID)
   set(CURL_LIB "${CURL_PATH}/lib/android/${CMAKE_ANDROID_ARCH_ABI}/libcurl.a")
+  set(CURL_INCLUDE_PATH "${CURL_PATH}/include")
 
 elseif (EMSCRIPTEN)
   set(CURL_LIB "${CURL_PATH}/lib/emscripten/libcurl.a")
+  set(CURL_INCLUDE_PATH "${CURL_PATH}/include")
 
 elseif(WIN32)
   set(CURL_LIB "${CURL_PATH}/lib/windows/libcurl.lib")
+  set(CURL_INCLUDE_PATH "${CURL_PATH}/include")
 
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   set(CURL_LIB "${CURL_PATH}/lib/ios/libcurl.a")
+  set(CURL_INCLUDE_PATH "${CURL_PATH}/include")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   message(WARNING "Building on MacOS: Using system installed libcurl")
@@ -37,7 +42,7 @@ else()
   message(FATAL_ERROR "Unknown platform")
 endif()
 
-set (CURL_INCLUDE_PATH "${CURL_PATH}/include")
+message(" - Module name: ${PROJECT_NAME}")
 message(" - Curl library path: ${CURL_LIB}")
 message(" - Curl incude  path: ${CURL_INCLUDE_PATH}")
 message(">>>                                                      <<<")
